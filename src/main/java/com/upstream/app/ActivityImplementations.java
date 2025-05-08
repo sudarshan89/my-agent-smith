@@ -6,9 +6,10 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 public class ActivityImplementations {
-    static LLMManager.LLMClient llmClient = new LLMManager.MockLLMClient();
+    // initialised in the WorkerApp
+    static LLMManager.LLMClient llmClient;
 
-    public static class FetchContentActivityImpl implements Acitivities.FetchContentActivity {
+    public static class FetchContentActivityImpl implements Activities.FetchContentActivity {
         @Override
         public String fetch(String url) {
             System.out.println("Invoked FetchContentActivity");
@@ -26,7 +27,7 @@ public class ActivityImplementations {
         }
     }
 
-    public static class SummariseContentDiffActivityImpl implements Acitivities.SummariseContentDiffActivity {
+    public static class SummariseContentDiffActivityImpl implements Activities.SummariseContentDiffActivity {
 
         @Override
         public String summariseContentDiff(String prevContent, String currentContent) {
@@ -35,7 +36,7 @@ public class ActivityImplementations {
         }
     }
 
-    public static class SelectPromotionChannelActivityImpl implements Acitivities.SelectPromotionChannelActivity {
+    public static class SelectPromotionChannelActivityImpl implements Activities.SelectPromotionChannelActivity {
 
         @Override
         public String select(String summary) {
@@ -44,10 +45,10 @@ public class ActivityImplementations {
         }
     }
 
-    public static class PromoteContentActivityImpl implements Acitivities.PromoteContentActivity {
+    public static class PromoteContentActivityImpl implements Activities.PromoteContentActivity {
         @Override
         public void promote(String summary, String channel) {
-            System.out.printf("🚀 Promoting to %s:\n%s\n", channel, summary);
+            System.out.printf("🚀 Promoting to %s. \n The post will include -- %s\n", channel, summary);
             // Optionally: Add real Slack/GitHub posting logic here.
         }
     }

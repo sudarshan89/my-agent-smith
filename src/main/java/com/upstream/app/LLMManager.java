@@ -1,19 +1,13 @@
 package com.upstream.app;
 
-import java.util.UUID;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import software.amazon.awssdk.auth.credentials.AwsBasicCredentials;
-import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider;
+import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
 import software.amazon.awssdk.core.SdkBytes;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.bedrockruntime.BedrockRuntimeClient;
 import software.amazon.awssdk.services.bedrockruntime.model.InvokeModelRequest;
 import software.amazon.awssdk.services.bedrockruntime.model.InvokeModelResponse;
 
-
+import java.util.UUID;
 
 public class LLMManager {
 
@@ -34,24 +28,17 @@ public class LLMManager {
         }
     }
 
-    public static class MockLLMClient implements LLMClient{
+    public static class MockLLMClient implements LLMClient {
 
     }
 
-    public class BedrockLLM implements LLMClient {
+    public static class BedrockLLM implements LLMClient {
 
-        /*
-         * @TODO: update credentials to use implementation
-         */
+
         private final BedrockRuntimeClient client = BedrockRuntimeClient.builder()
-                .region(Region.of("us-east-1")) // use an enabled Bedrock region
-                .credentialsProvider(
-                        StaticCredentialsProvider.create(
-                                AwsBasicCredentials.create("YOUR_ACCESS_KEY", "YOUR_SECRET_KEY")
-                        )
-                )
+                .region(Region.of("us-west-2")) // use an enabled Bedrock region
+                .credentialsProvider(DefaultCredentialsProvider.create()) // Leverages IMDS credentials which are picked up in the AWS VSCode environment set up for the hackathon
                 .build();
-        private final ObjectMapper objectMapper = new ObjectMapper();
 
         @Override
         public String summariseDiff(String prevContent, String currContent) {
@@ -76,32 +63,54 @@ public class LLMManager {
 
         private String invokeBedrock(String prompt) {
             try {
-                String escapedPrompt = prompt.replace("\"", "\\\"");
+                String titanPrompt = "\n\nHuman: " + prompt + "\n\nAssistant:";
 
                 String jsonPayload = """
                         {
-                          "prompt": "Human: %s
-                        Assistant:",
-                          "max_tokens": 300
-                        }
-                        """.formatted(escapedPrompt);
+                                  "inputText": %s,
+                                  "textGenerationConfig": {
+                                    "temperature": 0.5,
+                                    "topP": 0.9,
+                                    "maxTokenCount": 5000,
+                                    "stopSequences": []
+                                  }
+                                }
+                        """.formatted(jsonEscape(titanPrompt));
 
                 InvokeModelRequest request = InvokeModelRequest.builder()
-                        .modelId("anthropic.claude-v2") // or any available model
+                        .modelId(Constants.MODEL_ID) // or any available model
                         .contentType("application/json")
                         .accept("application/json")
                         .body(SdkBytes.fromUtf8String(jsonPayload))
                         .build();
 
                 InvokeModelResponse response = client.invokeModel(request);
-                String responseString = response.body().asUtf8String();
-                JsonNode root = objectMapper.readTree(responseString);
-
-                return root.has("completion") ? root.get("completion").asText() : responseString;
-            } catch (JsonProcessingException e) {
+                String responseText = extractOutputText(response.body().asUtf8String());
+                System.out.println("Model output " + responseText);
+                return responseText;
+            } catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }
-    }
 
+        private String jsonEscape(String s) {
+            return "\"" + s
+                    .replace("\\", "\\\\")
+                    .replace("\"", "\\\"")
+                    .replace("\n", "\\n")
+                    .replace("\r", "") + "\"";
+        }
+
+        private String extractOutputText(String json) {
+            // Basic manual parsing; replace with a JSON parser in production
+            int start = json.indexOf("\"outputText\":");
+            if (start == -1)
+                return json;
+            int quoteStart = json.indexOf("\"", start + 13);
+            int quoteEnd = json.indexOf("\"", quoteStart + 1);
+            return quoteStart != -1 && quoteEnd != -1
+                    ? json.substring(quoteStart + 1, quoteEnd)
+                    : json;
+        }
+    }
 }
