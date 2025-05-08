@@ -48,7 +48,7 @@ public class ActivityImplementations {
     public static class PromoteContentActivityImpl implements Activities.PromoteContentActivity {
         @Override
         public void promote(String summary, String channel) {
-            System.out.printf("🚀 Promoting to %s:\n%s\n", channel, summary);
+            System.out.printf("🚀 Promoting to %s. \n The post will include -- %s\n", channel, summary);
             // Optionally: Add real Slack/GitHub posting logic here.
         }
     }
