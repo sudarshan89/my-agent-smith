@@ -16,7 +16,20 @@ This app simulates an autonomous agent that monitors a target web page on a recu
 * *Optional extension*: The agent can be enhanced to monitor engagement on those channels (e.g., reactions, replies, click-throughs) and adapt future posting strategies based on what works best.
 
 ---
+## 🚀 Pre-Hackathon Checklist
 
+All development will take place in pre-provisioned AWS environments. No local setup is required.
+
+Before the event, please ensure you can access the AWS workshop portal:
+
+👉 https://catalog.us-east-1.prod.workshops.aws
+
+🔑 An event ID will be provided on the day of the hackathon to unlock your environment.
+
+📘 Optional Prep:
+If you're new to Temporal, we recommend skimming through the Temporal 101 course to get familiar with the basics.
+
+---
 ## ⚙️ Temporal Setup (Local Dev)
 
 ### 1. Download and extract the Temporal CLI binary
