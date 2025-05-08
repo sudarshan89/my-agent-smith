@@ -12,11 +12,11 @@ public class ContentAmplifierWorkflowImpl implements ContentAmplifierWorkflow {
             .setStartToCloseTimeout(Duration.ofSeconds(10))
             .build();
 
-    private final Acitivities.FetchContentActivity fetcher = Workflow.newActivityStub(Acitivities.FetchContentActivity.class, options);
-    private final Acitivities.SummariseContentDiffActivity diffSummariser = Workflow.newActivityStub(Acitivities.SummariseContentDiffActivity.class, options);
-    private final Acitivities.SelectPromotionChannelActivity channelSelector = Workflow.newActivityStub(Acitivities.SelectPromotionChannelActivity.class, options);
+    private final Activities.FetchContentActivity fetcher = Workflow.newActivityStub(Activities.FetchContentActivity.class, options);
+    private final Activities.SummariseContentDiffActivity diffSummariser = Workflow.newActivityStub(Activities.SummariseContentDiffActivity.class, options);
+    private final Activities.SelectPromotionChannelActivity channelSelector = Workflow.newActivityStub(Activities.SelectPromotionChannelActivity.class, options);
 
-    private final Acitivities.PromoteContentActivity promoteContentActivity = Workflow.newActivityStub(Acitivities.PromoteContentActivity.class, options);
+    private final Activities.PromoteContentActivity promoteContentActivity = Workflow.newActivityStub(Activities.PromoteContentActivity.class, options);
 
 
     //change this

@@ -3,7 +3,7 @@ package com.upstream.app;
 import io.temporal.activity.ActivityInterface;
 import io.temporal.activity.ActivityMethod;
 
-public class Acitivities {
+public class Activities {
     @ActivityInterface
     public interface FetchContentActivity {
         @ActivityMethod
