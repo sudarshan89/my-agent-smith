@@ -1,0 +1,48 @@
+# IDEs
+.idea/
+.fleet/
+
+# IntelliJ Fleet cache & logs
+.fleet-cache/
+.fleet-log/
+
+# Build artifacts
+/target/
+target/
+out/
+bin/
+
+# Maven local repo if checked in by mistake
+.mvn/
+
+# Logs and temporary files
+*.log
+*.tmp
+*.swp
+*.bak
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# JetBrains Run Configurations (optional)
+*.iws
+*.iml
+*.ipr
+
+# VS Code backup (if you sometimes use it)
+.vscode/
+
+# Environment files (optional)
+.env
+.env.*
+
+# Test reports
+/test-output/
+surefire-reports/
+failsafe-reports/
+
+# Dependency scan tools
+dependency-check-report.xml
