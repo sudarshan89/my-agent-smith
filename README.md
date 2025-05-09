@@ -1,53 +1,55 @@
-# 🕶️ My Agent Smith
+# My Agent Smith 🕶️
 
-A hands-on exercise to explore **Temporal** as a durable workflow engine and integrate it with a simple **Java application**. You’ll spin up Temporal in a development environment and connect it to your own Java-based worker using OpenJDK 17.
+A hands-on hackathon project to explore **Temporal** as a durable workflow engine and its integration with a simple **Java application**. You’ll build and run an agentic workflow in a pre-configured AWS environment using OpenJDK 17, Amazon Bedrock, and Amazon Q.
 
-This setup is intended for learning and experimentation purposes in a Cloud9 environment or similar AWS-hosted dev workspace.
-
-### 🧠 What does this app do?
-
-This app simulates an autonomous agent that monitors a target web page on a recurring schedule. The workflow:
-
-* Periodically polls the web page.
-* Summarises the difference from its previous state using a foundation model via **Amazon Bedrock**.
-* Produces a developer-friendly summary of meaningful changes.
-* Reasons about the most suitable communication channels (e.g., Slack, email, issue tracker) on which the summary should be posted.
-* Automatically selects and posts the summary to those channels.
-* *Optional extension*: The agent can be enhanced to monitor engagement on those channels (e.g., reactions, replies, click-throughs) and adapt future posting strategies based on what works best.
+This setup is intended for experimentation in a Cloud9 or similar AWS-hosted developer workspace.
 
 ---
-## 🚀 Pre-Hackathon Checklist
+
+## What does this app do? 🤖
+
+This app simulates an autonomous agent that monitors a target web page and:
+
+* Periodically polls the page
+* Detects changes and summarises the differences using **Amazon Bedrock**
+* Selects the best communication channel (e.g., Slack, issue tracker)
+* Posts a developer-friendly summary of meaningful changes
+* *Optional:* Monitors engagement (e.g., reactions, clicks) to optimise future strategy
+
+---
+
+## Pre-Hackathon Checklist ✅
 
 All development will take place in pre-provisioned AWS environments. No local setup is required.
 
-Before the event, please ensure you can access the AWS workshop portal:
-
-👉 https://catalog.us-east-1.prod.workshops.aws
-
-🔑 An event ID will be provided on the day of the hackathon to unlock your environment.
-
-📘 Optional Prep:
-If you're new to Temporal, we recommend skimming through the Temporal 101 course to get familiar with the basics.
+* Confirm you can access: [https://catalog.us-east-1.prod.workshops.aws](https://catalog.us-east-1.prod.workshops.aws)
+* Use Chrome or Microsoft Edge
+* An event ID will be provided on the day to unlock your environment
+* Optional prep: Review the [Temporal 101 course](https://learn.temporal.io/courses/temporal_101/)
 
 ---
-## ⚙️ Temporal Setup (Local Dev)
+## Java Setup (OpenJDK 17) ☕
 
-### 1. Download and extract the Temporal CLI binary
+```bash
+sudo amazon-linux-extras enable corretto17
+sudo yum clean metadata
+sudo yum install -y java-17-amazon-corretto-devel
+java -version
+```
+
+You should see output that starts with `openjdk version "17"`
+
+---
+
+## Temporal Setup (Local Dev) ⏱️
 
 ```bash
 wget -O temporal_linux_arm64.tar.gz "https://temporal.download/cli/archive/latest?platform=linux&arch=arm64"
 tar -xvzf temporal_linux_arm64.tar.gz
-```
-
-### 2. Start the Temporal server (with UI)
-
-```bash
 ./temporal server start-dev --ui-public-path /proxy/8233
 ```
 
-### 3. Open the Temporal UI in your browser
-
-Visit the following URL, replacing `<your-cloud9-subdomain>`:
+Then open the UI at:
 
 ```
 https://<your-cloud9-subdomain>.cloudfront.net/proxy/8233/
@@ -55,86 +57,98 @@ https://<your-cloud9-subdomain>.cloudfront.net/proxy/8233/
 
 ---
 
-## ☕ Java Setup (OpenJDK 17)
+## Amazon Q for Developers Setup 💡
 
-### 1. Install OpenJDK 17 (on Amazon Linux)
-
-```bash
-sudo amazon-linux-extras enable corretto17
-sudo yum clean metadata
-sudo yum install -y java-17-amazon-corretto-devel
-```
-
-### 2. Verify Java installation
-
-```bash
-java -version
-```
-
-Expected output:
-
-```
-openjdk version "17" ...
-```
-
-> 🛡️ **Note:**
-> The `sudo` password can be found on the **event dashboard page** and is the same one used to launch VS Code.
+1. Open the extensions sidebar in VS Code
+2. Search for `Amazon Q` and install it
+3. Complete the sign-in (you may use your AWS Builder profile)
+4. Confirm it appears in the sidebar:
+   ![Amazon Q Extension](./docs/amazon-q-for-developers.png)
 
 ---
 
-## ▶️ Steps to Execute
+## Install Java Extension Pack
+
+1. Search for `Extension Pack for Java` in VS Code extensions
+2. Install and verify it by checking for `Java Ready` in the status bar
+
+![Java Extension Pack](./docs/extension-pack-for-java.png)
+![Java Ready](./docs/java-ready.png)
+
+---
+
+## Enable Access to Amazon Bedrock Models 🔐
+
+1. Follow the instructions for **Amazon Bedrock setup** under "Running at an AWS facilitated event"
+2. Request access to the model: `amazon.titan-text-express-v1`
+
+![Bedrock Access](./docs/bedrock-access.png)
+
+---
+
+## Clone the Skeleton Repo
+
+```bash
+git clone https://github.com/sudarshan89/my-agent-smith.git
+```
+
+---
+
+## Steps to Execute ▶️
 
 1. **Run `WorkerTest`**
-   Validates connectivity with Amazon Bedrock and ensures model access is working correctly.
+   Verifies access to Bedrock and confirms model integration
 
 2. **Run `WorkflowApp`**
-   Starts a recurring workflow that is scheduled to run every minute.
+   Starts the recurring agent workflow (scheduled every minute)
 
-3. **Confirm the workflow is running**
-   Open the Temporal dashboard:
+3. **View in Temporal UI**
+   Check workflow status at:
 
    ```
    https://<your-cloud9-subdomain>.cloudfront.net/proxy/8233/
    ```
 
 4. **Run `WorkerApp`**
-   Executes the agentic workflow that polls the webpage and generates meaningful change summaries using Bedrock.
+   Executes the workflow to detect changes and summarise updates
 
 ---
 
-## 🔗 Code Repositories
 
-* 💻 **Java implementation:** [GitHub - My Agent Smith (Java)](https://github.com/sudarshan89/my-agent-smith)
-* 🐍 **Python version (coming soon):** *\[link to be added when available]*
+## Clone the Solution Repo (Optional, but recommended)
+
+Use this repository as your get out of jail card.
+
+```bash
+git clone https://github.com/sudarshan89/my-agent-smith.git
+```
+---
+
+## Prompt Engineering Examples used in this repository ✍️
+
+**Diff summarisation prompt:**
+
+```
+Compare the following two versions of content and generate a high-level summary of meaningful differences:
+--- PREVIOUS VERSION ---
+[previous content]
+--- CURRENT VERSION ---
+[current content]
+
+Respond in plain English with the key updates developers should know about.
+```
+---
+
+## Code Repositories 📁
+
+* Java Skeleton Implementation: [GitHub - My Agent Smith (Java)](https://github.com/sudarshan89/my-agent-smith)
+* Java Full Implementation: [GitHub - My Agent Smith (Java)](https://github.com/sudarshan89/my-agent-smith)
+* Python Skeleton Implementation: *Coming soon*
+* Python Full Implementation: *Coming soon*
 
 ---
 
-## 🧠 Prompt Engineering Examples
+## TODO 📌
 
-Here are a few prompt patterns that generate useful outputs in this app:
-
-* **Diff summarisation:**
-
-  ```
-  Compare the following two versions of content and generate a high-level summary of meaningful differences:
-  --- PREVIOUS VERSION ---
-  [previous HTML/text content]
-  --- CURRENT VERSION ---
-  [current HTML/text content]
-
-  Respond in plain English with the key updates developers should know about.
-  ```
-
-* **Generic update summary:**
-
-  ```
-  Summarise the changes between these two versions of a product webpage. Focus only on material updates.
-  ```
-
-These prompts are designed to work well with Claude and Titan foundation models via Amazon Bedrock.
-
----
-
-@TODO -
-Add a skeleton repo, pom.xml + WorkerTest.java
-Prompts that generate the app
+* Add starter repo scaffolding (`pom.xml`, `WorkerTest.java`, etc.)
+* Add sample prompts that generated this app
