@@ -89,7 +89,7 @@ https://<your-cloud9-subdomain>.cloudfront.net/proxy/8233/
 ## Clone the Skeleton Repo
 
 ```bash
-git clone https://github.com/sudarshan89/my-agent-smith.git
+git clone https://github.com/sudarshan89/my-agent-smith-skeleton.git
 ```
 
 ---
@@ -141,7 +141,7 @@ Respond in plain English with the key updates developers should know about.
 
 ## Code Repositories 📁
 
-* Java Skeleton Implementation: [GitHub - My Agent Smith (Java)](https://github.com/sudarshan89/my-agent-smith)
+* Java Skeleton Implementation: [GitHub - My Agent Smith (Java)](https://github.com/sudarshan89/my-agent-smith-skeleton)
 * Java Full Implementation: [GitHub - My Agent Smith (Java)](https://github.com/sudarshan89/my-agent-smith)
 * Python Skeleton Implementation: *Coming soon*
 * Python Full Implementation: *Coming soon*
@@ -149,6 +149,4 @@ Respond in plain English with the key updates developers should know about.
 ---
 
 ## TODO 📌
-
-* Add starter repo scaffolding (`pom.xml`, `WorkerTest.java`, etc.)
 * Add sample prompts that generated this app

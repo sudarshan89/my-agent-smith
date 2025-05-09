@@ -8,6 +8,7 @@ import io.temporal.worker.WorkerFactory;
 
 
 public class WorkerApp {
+
     public static void main(String[] args) {
         WorkflowServiceStubs service = WorkflowServiceStubs.newLocalServiceStubs();
         WorkflowClient client = WorkflowClient.newInstance(service);

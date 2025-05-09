@@ -78,7 +78,7 @@ public class LLMManager {
                         """.formatted(jsonEscape(titanPrompt));
 
                 InvokeModelRequest request = InvokeModelRequest.builder()
-                        .modelId("amazon.titan-text-express-v1") // or any available model
+                        .modelId(Constants.MODEL_ID) // or any available model
                         .contentType("application/json")
                         .accept("application/json")
                         .body(SdkBytes.fromUtf8String(jsonPayload))

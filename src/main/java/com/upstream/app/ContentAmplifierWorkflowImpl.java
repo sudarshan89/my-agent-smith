@@ -20,15 +20,13 @@ public class ContentAmplifierWorkflowImpl implements ContentAmplifierWorkflow {
 
 
     //change this
-    private static final String MONITORED_URL = "https://example.com/blog";
     private String lastContentHash = "";
     private String lastContent = "";
 
     @Override
     public void run() {
         System.out.println("Hello Workflow " + Workflow.getInfo().getWorkflowId() + " Run Id " + Workflow.getInfo().getRunId());
-
-        String content = fetcher.fetch(MONITORED_URL);
+        String content = fetcher.fetch(Constants.MONITORED_URL);
         String hash = Integer.toString(content.hashCode());
 
         if (!hash.equals(lastContentHash)) {
